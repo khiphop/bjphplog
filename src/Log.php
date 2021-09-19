@@ -1,30 +1,52 @@
 <?php
 
-namespace Bjphp\Log;
+namespace BjphpLog;
 
 class Log
 {
 
 
-    public static function write($info, $dir = 'default', $tag = '', $logRequest = false)
+    public static function write($content, $dir = 'default', $tag = '')
     {
+        if (!defined('LOG_ROOT')) {
+            die('LOG_ROOT NOT DEFINED!');
+        }
+
         $basePath = LOG_ROOT . '/' . $dir . '/';
         if (!is_dir($basePath)) {
             mkdir($basePath, 0777, true);
         }
 
-        if (is_array($info)) $info = json_encode($info, 320);
+        $content = self::formatContent($content);
 
         // 日志正文开始拼装
-        $txt = $tag . ' | ' . $info;
-
-        if ($logRequest) $txt .= ' | Request: ' . json_encode($_REQUEST, 320);
+        $txt = $tag . ' | ' . $content;
 
         $txt = 'UID:[' . self::getLogUid() . '] | ' . $txt;
         $txt = '[' . self::getMillisecondDate() . '] ' . $txt;
         $txt .= "\n";
 
         file_put_contents($basePath . date('Ymd') . '.log', $txt, FILE_APPEND);
+    }
+
+    /**
+     * 格式化日志内容
+     * @param
+     * @return string
+     * @author      kev.zhang
+     * @date        2021/9/19
+     */
+    private static function formatContent($content)
+    {
+        if (is_object($content)) {
+            $content = json_encode($content, 320);
+        }
+
+        if (is_array($content)) {
+            $content = json_encode($content, 320);
+        }
+
+        return (string)$content;
     }
 
     /**
@@ -53,7 +75,7 @@ class Log
      */
     public static function setLogUid($uid)
     {
-        $GLOBALS['LOG_UID'] = $uid;
+        $GLOBALS['BP_LOG_UID'] = $uid;
     }
 
     /**
@@ -64,10 +86,10 @@ class Log
      */
     private static function getLogUid()
     {
-        if (!(isset($GLOBALS['LOG_UID']) && $GLOBALS['LOG_UID'])) {
-            $GLOBALS['LOG_UID'] = uniqid();
+        if (!(isset($GLOBALS['BP_LOG_UID']) && $GLOBALS['BP_LOG_UID'])) {
+            $GLOBALS['BP_LOG_UID'] = uniqid();
         }
 
-        return $GLOBALS['LOG_UID'];
+        return $GLOBALS['BP_LOG_UID'];
     }
 }

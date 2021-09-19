@@ -3,7 +3,7 @@
     "description": "bj's log composer",
     "autoload": {
         "psr-4": {
-            "Bjphp\\Log\\": "src/"
+            "BjphpLog\\": "src/"
         }
     },
     "authors": [
@@ -12,5 +12,7 @@
             "email": "854641898@qq.com"
         }
     ],
-    "require": {}
+    "require": {
+        "ext-json": "*"
+    }
 }
