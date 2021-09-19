@@ -1,0 +1,16 @@
+{
+    "name": "bjphp/log",
+    "description": "bj's log composer",
+    "autoload": {
+        "psr-4": {
+            "Bjphp\\Log\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "zhangbb",
+            "email": "854641898@qq.com"
+        }
+    ],
+    "require": {}
+}
