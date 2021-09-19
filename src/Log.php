@@ -2,7 +2,7 @@
 
 namespace BjphpLog;
 
-class Log
+class LogUtil
 {
 
 
