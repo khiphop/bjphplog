@@ -6,5 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Bjphp\\Log\\' => array($baseDir . '/src'),
+    'BjphpLog\\' => array($baseDir . '/src'),
 );

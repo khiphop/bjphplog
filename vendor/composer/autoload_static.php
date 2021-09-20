@@ -9,12 +9,12 @@ class ComposerStaticInit5b712295cdd621178d1709a3c06ea522
     public static $prefixLengthsPsr4 = array (
         'B' => 
         array (
-            'Bjphp\\Log\\' => 10,
+            'BjphpLog\\' => 9,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Bjphp\\Log\\' => 
+        'BjphpLog\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
