@@ -13,6 +13,17 @@ alarm | 发出告警
 
 
 ## composer包的使用
+#### 在没有composer的项目引入composer
+1. 创建composer.json文件
+
+2. 写入内容
+```
+{
+  "require": {
+  }
+}
+```
+
 #### composer引入
 ```
 composer require bjphp/log

@@ -53,6 +53,16 @@ function debug()
     LogUtil::debug($array, 'default', 'LOGIN_ERROR');
 }
 
+function error()
+{
+    $array = array(
+        'name' => 'kevin',
+        'age' => 21,
+    );
+
+    LogUtil::error($array, 'default', 'LOGIN_ERROR');
+}
+
 function alarm()
 {
     $array = array(
@@ -63,13 +73,13 @@ function alarm()
     LogUtil::alarm('854641898@qq.com', '登录错误', $array, 'default', 'LOGIN_ERROR');
 }
 
-
+//LogUtil::setLogUid('akldjf92r24');
 writeString();
 writeJson();
 writeArray();
 writeObject();
 debug();
+error();
 alarm();
 
 
-//LogUtil::setLogUid('akldjf92r24');

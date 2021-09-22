@@ -63,6 +63,21 @@ class LogUtil
     }
 
     /**
+     * 错误日志
+     * @desc
+     * @param array $content
+     * @param string $dir
+     * @param string $tag
+     * @return void
+     * @author      kev.zhang
+     * @date        2021/9/20
+     */
+    public static function error($content = [], $dir = 'default', $tag = '')
+    {
+        self::write($content, 'error', $dir, $tag);
+    }
+
+    /**
      * 核心写入
      * @param
      * @param string $level
