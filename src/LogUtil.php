@@ -10,26 +10,30 @@ class LogUtil
 
     /**
      * 发出告警并记录
-     * @param
-     * @param string $title
-     * @param array $content
+     * @param $addresses
+     * @param $msg
+     * @param array $data
      * @param string $dir
      * @param string $tag
      * @return void
      * @author      kev.zhang
      * @date        2021/9/20
      */
-    public static function alarm($addresses, $title = '日志告警', $content = [], $dir = 'default', $tag = '')
+    public static function alarm($addresses, $msg = '', $data = [], $dir = 'default', $tag = '')
     {
-        $url = self::EMAIL_URL . '&addresses=' . $addresses . '&title=' . $title . '&content=' . self::formatContent($content);
-        Curl::doPost($url);
+        if ($addresses) {
+            $title = $tag . ':' . $msg;
+            $url = self::EMAIL_URL . '&addresses=' . $addresses . '&title=' . $title . '&content=' . self::formatContent($data);
+            Curl::doPost($url);
+        }
 
-        self::write($content, 'alarm', $dir, $tag);
+        self::write($msg, $data, 'alarm', $dir, $tag);
     }
 
     /**
      * 调试日志
-     * @desc
+     * @param string $msg
+     * @param array $data
      * @param array $request
      * @param string $dir
      * @param string $tag
@@ -37,49 +41,52 @@ class LogUtil
      * @author      kev.zhang
      * @date        2021/9/20
      */
-    public static function debug($request = [], $dir = 'default', $tag = '')
+    public static function debug($msg = '', $data = [], $request = [], $dir = 'default', $tag = '')
     {
         if (!$request) $request = $_REQUEST;
 
-        $content = 'Request:' . json_encode($request);
+        $dataFormat = self::formatContent($data);
+
+        $content = $dataFormat . ' | Request:' . json_encode($request);
         $content .= ' | Trace:' . json_encode(debug_backtrace());
 
-        self::write($content, 'debug', $dir, $tag);
+        self::write($msg, $content, 'debug', $dir, $tag);
     }
 
     /**
      * 信息日志
-     * @desc
-     * @param array $content
+     * @param string $msg
+     * @param array $data
      * @param string $dir
      * @param string $tag
      * @return void
      * @author      kev.zhang
      * @date        2021/9/20
      */
-    public static function info($content = [], $dir = 'default', $tag = '')
+    public static function info($msg = '', $data = [], $dir = 'default', $tag = '')
     {
-        self::write($content, 'info', $dir, $tag);
+        self::write($msg, $data, 'info', $dir, $tag);
     }
 
     /**
      * 错误日志
-     * @desc
-     * @param array $content
+     * @param $msg
+     * @param array $data
      * @param string $dir
      * @param string $tag
      * @return void
      * @author      kev.zhang
      * @date        2021/9/20
      */
-    public static function error($content = [], $dir = 'default', $tag = '')
+    public static function error($msg, $data = [], $dir = 'default', $tag = '')
     {
-        self::write($content, 'error', $dir, $tag);
+        self::write($msg, $data, 'error', $dir, $tag);
     }
 
     /**
      * 核心写入
-     * @param
+     * @param string $msg 字符串内容
+     * @param array $data 数组内容
      * @param string $level
      * @param string $dir
      * @param string $tag
@@ -87,7 +94,7 @@ class LogUtil
      * @author      kev.zhang
      * @date        2021/9/20
      */
-    public static function write($content, $level = 'info', $dir = 'default', $tag = '')
+    public static function write($msg = '', $data = [], $level = 'info', $dir = 'default', $tag = '')
     {
         if (!defined('LOG_ROOT')) {
             die('LOG_ROOT NOT DEFINED!');
@@ -112,8 +119,8 @@ class LogUtil
         if ($tag) $txt .= ' | ' . $tag;
 
         // 正文
-        $content = self::formatContent($content);
-        $txt .= ' | ' . $content;
+        $dataFormat = self::formatContent($data);
+        $txt .= ' | ' . $msg . ' ' . $dataFormat;
         $txt .= "\n";
 
         file_put_contents($basePath . date('Ymd') . '.log', $txt, FILE_APPEND);
@@ -128,6 +135,10 @@ class LogUtil
      */
     private static function formatContent($content)
     {
+        if (!$content) {
+            return '[]';
+        }
+
         if (is_object($content)) {
             $content = json_encode($content, 320);
         }

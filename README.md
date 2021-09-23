@@ -1,3 +1,9 @@
+## 环境要求
+```
+php ≥ 5.6
+composer > 2.0
+```
+
 ## 日志级别划分
 级别	| 描述
 ---|---
@@ -10,6 +16,18 @@ error	|运行时错误，不需要立即被处理但通常需要被记录或者�
 *alert	|告警，必须采取行动来修复，例如整个网站宕机或数据库无法访问等。
 *emergency	|系统不可用。
 alarm | 发出告警
+
+## 日志结构组成
+
+原文:
+```
+[10:56:19.25] UID:[614becd305fa5] | _INFO_ | LOGIN_ERROR | 用户信息 {"name":"kevin","age":21}
+```
+
+结构:
+
+`不带年月日的毫秒级时间`  `日志唯一码` | `日志级别` | `日志标签` | `内容.信息部分` `内容.数据部分`
+
 
 
 ## composer包的使用
@@ -45,3 +63,20 @@ composer update bjphp/log
 composer remove bjphp/log
 ```
 
+## 操作步骤
+#### 没有composer.json的项目的前置操作
+###### 1. 创建composer.json
+
+###### 2. 写入内容
+```
+{
+  "require": {
+  }
+}
+```
+
+#### 主要流程
+###### 1. 引入composer包
+composer require bjphp/log:1.5
+
+###### 参考 \vendor\bjphp\log\demo.php 使用
