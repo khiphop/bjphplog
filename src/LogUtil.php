@@ -12,7 +12,7 @@ class LogUtil
      * 发出告警并记录
      * @param $addresses
      * @param $msg
-     * @param array $data
+     * @param $data
      * @param string $dir
      * @param string $tag
      * @return void
@@ -33,8 +33,8 @@ class LogUtil
     /**
      * 调试日志
      * @param string $msg
-     * @param array $data
-     * @param array $request
+     * @param $data
+     * @param $request
      * @param string $dir
      * @param string $tag
      * @return void
@@ -56,7 +56,7 @@ class LogUtil
     /**
      * 信息日志
      * @param string $msg
-     * @param array $data
+     * @param $data
      * @param string $dir
      * @param string $tag
      * @return void
@@ -71,7 +71,7 @@ class LogUtil
     /**
      * 错误日志
      * @param $msg
-     * @param array $data
+     * @param $data
      * @param string $dir
      * @param string $tag
      * @return void
@@ -86,7 +86,7 @@ class LogUtil
     /**
      * 核心写入
      * @param string $msg 字符串内容
-     * @param array $data 数组内容
+     * @param $data
      * @param string $level
      * @param string $dir
      * @param string $tag
